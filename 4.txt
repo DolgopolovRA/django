@@ -1,0 +1,10 @@
+Выберите три рабочих URL на любых ресурсах, которые содержат:
+
+1) URL-путь с двумя или тремя вложениями:
+https://gb.ru/lessons/265184/homework
+
+2) несколько GET-параметров:
+https://www.fontanka.ru/2022/10/17/71741345/?from=yanews&utm_source=yxnews&utm_medium=desktop
+
+3) идентификатор якоря:
+https://www.litmir.me/br/?b=794655&p=5#section_5
