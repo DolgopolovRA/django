@@ -1,7 +1,7 @@
 {% extends 'mainapp/base.html' %}
 
 
-{% block content %}    
+{% block content %}
 
 {% with range as double_range %}
 
@@ -9,19 +9,19 @@
 
   <div class="col-lg-8">
 
-    
-    {% for key, val in list_data.items %}
+
+    {% for item in list_data %}
     <div class="card my-2">
       <div class="card-body">
-        <h5 class="card-title">{{ key }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ datetime_obj|date:"Y-m-d h-i-s" }}</h6>
-        <p class="card-text">{{ val }}</p>
-        <a href="#" class="card-link">Подробнее</a>
+        <h5 class="card-title">{{ item.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ item.created_at|date:"d.m.Y H:i" }}</h6>
+        <p class="card-text">{{ item.preamble }}</p>
+        <a href="{% url 'mainapp:news_detail' item.pk %}" class="card-link">Подробнее</a>
       </div>
     </div>
     {% endfor %}
-    
-    
+
+
   </div>
 
   <div class="col-lg-4">
@@ -66,4 +66,4 @@
 
 {% endwith %}
 
-{% endblock content %} 
+{% endblock content %}
