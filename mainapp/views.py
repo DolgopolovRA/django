@@ -5,7 +5,9 @@
 from datetime import datetime
 from django.http import HttpResponse
 from django.views.generic import TemplateView
-import json
+from django.shortcuts import get_object_or_404
+
+from mainapp.models import News
 
 
 class ContactsView(TemplateView):
@@ -31,14 +33,22 @@ class LoginView(TemplateView):
 class NewsView(TemplateView):
     template_name = 'mainapp/news.html'
 
-    def get_context_data(self, **kwargs): 
-        
+    def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
-        with open("mainapp/news.json", 'r', encoding='utf-8') as rf:
-            context['list_data'] = json.load(rf)
+
+        context['list_data'] = News.objects.filter(deleted=False)
         context["datetime_obj"] = datetime.now()
-        # context["news_title"] = "Громкий новостной заголовок" 
-        # context[ "news_preview"] = "Предварительное описание, которое заинтересует каждого" 
         context["range"] = range(1, len(context['list_data'])+1)
         return context
 
+
+class NewsDetail(TemplateView):
+    template_name = 'mainapp/news_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object'] = get_object_or_404(News, pk=self.kwargs.get('pk'))
+        return context
+        
+    
