@@ -5,7 +5,7 @@
             <img src="{% static 'img/logo.png' %}" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -19,7 +19,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="ddProfile" role="button" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
+                        aria-haspopup="true" aria-expanded="false">
                         Профиль
                     </a>
                     <div class="dropdown-menu" aria-labelledby="ddProfile">
@@ -35,6 +35,18 @@
                 <li class="nav-item {% if request.resolver_match.view_name == 'mainapp:contacts' %}active{% endif %}">
                     <a class="nav-link" href="{% url 'mainapp:contacts' %}">Контакты</a>
                 </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'authapp:edit' %}">{{ user.first_name|default:user.username}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'authapp:logout' %}">Выход</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'authapp:login' %}">Вход</a>
+                    </li>
+                {% endif %}
             </ul>
             <span><a href="#">🇷🇺</a> <i class="fas fa-grip-lines-vertical"></i> <a href="#">🇬🇧</a></span>
         </div>
