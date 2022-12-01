@@ -5,12 +5,11 @@
         <h2>Пометить новость удалённой?</h2>
         <p>
             Поставить отметку удаления для новости:<br>
-            "{{ object.title }}" от {{ object.created }}
+            "{{ object.title }}" от {{ object.created_at }}
         </p>
         <p>
         <div class="row">
             <div class="col-6">
-                © geekbrains.ru 55
                 <form action="{% url 'mainapp:news_delete' pk=object.pk %}" method="post">
                     {% csrf_token %}
                     <button class="btn btn-danger btn-block" type="submit">Подтвердить</button>
