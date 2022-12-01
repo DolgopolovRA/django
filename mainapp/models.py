@@ -68,7 +68,7 @@ class Lesson(models.Model):
     deleted = models.BooleanField(default=False, verbose_name="Удалено")
 
     def __str__(self):
-        return f"№{self.num} {self.name}"
+        return f"№{self.num} {self.title}"
 
     def delete(self, *args):
         self.deleted = True
