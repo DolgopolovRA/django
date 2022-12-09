@@ -26,8 +26,8 @@ class News(models.Model):
         self.save()
 
     class Meta:
-        verbose_name = 'новость'
-        verbose_name_plural = 'новости'
+        verbose_name = _('новость')
+        verbose_name_plural = _('новости')
 
 
 class Course(models.Model):
@@ -53,8 +53,8 @@ class Course(models.Model):
         self.save()
 
     class Meta:
-        verbose_name = 'курс'
-        verbose_name_plural = 'курсы'
+        verbose_name = _('курс')
+        verbose_name_plural = _('курсы')
 
 
 class Lesson(models.Model):
