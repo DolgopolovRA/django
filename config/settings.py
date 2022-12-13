@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -23,9 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!_uxktuzdx6v6j7!w*q!h@n@@u#(ancc99ve)2)lp-)irdnovx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.getenv('DEBUG') == 'True' else False
 
 ALLOWED_HOSTS = []
+
+ENV_TYPE = os.getenv('ENV_TYPE', 'prod')
 
 
 # Application definition
@@ -81,13 +85,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+if ENV_TYPE == 'local':
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'lms',
+            'USER': 'postgres',
+        }
+    }
 
 
 # Password validation
@@ -125,10 +139,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
 
+if ENV_TYPE == 'local':
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / 'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -150,8 +167,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend'
 )
 
-SOCIAL_AUTH_GITHUB_KEY = '6267452426877e358479'
-SOCIAL_AUTH_GITHUB_SECRET = 'e70b3756bea912e339f0a74b51f106f4f34a043d'
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('GITHUB_SECRET')
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
@@ -201,4 +218,3 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = "var/email-messages/"
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
-
